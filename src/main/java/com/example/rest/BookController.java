@@ -14,9 +14,17 @@ import java.util.Optional;
 @RequestMapping("/api/books")
 public class BookController {
     private final BookRepository bookRepository;
+    private final Environment environment;
 
     public BookController(BookRepository bookRepository, Environment environment) {
         this.bookRepository = bookRepository;
+        this.environment = environment;
+    }
+
+    @GetMapping("/envars")
+    public ResponseEntity<String[]> getEnvs() {
+        String[] profiles = this.environment.getActiveProfiles();
+        return ResponseEntity.ok(profiles);
     }
 
     @GetMapping
